@@ -21,27 +21,56 @@ function App() {
         },
     ]);
 
+    const [todoInput, setTodoInput] = useState('');
+    const [idForTodo, setIdForTodo] = useState(4);
+
+    function addTodo(e) {
+        e.preventDefault();
+
+        if (todoInput.trim().length === 0) {
+            return;
+        }
+
+        setTodos([...todos, {
+            id: idForTodo,
+            title: todoInput,
+            isComplete: false
+        }])
+        setTodoInput('')
+        setIdForTodo((prevIdForTodo) => prevIdForTodo + 1);
+    }
+
+    function handleInput(event) {
+        setTodoInput(event.target.value)
+    }
+
+    function deleteTodo(id) {
+        setTodos([...todos].filter(todo => todo.id !== id));
+    }
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
                 <h2>Todo App</h2>
-                <form action="src#">
+                <form action="#" onSubmit={addTodo}>
                     <input
                         type="text"
                         className="todo-input"
                         placeholder="What do you need to do?"
+                        value={todoInput}
+                        onChange={handleInput}
                     />
                 </form>
 
                 <ul className="todo-list">
                     {todos.map((todo, index) =>
-                        <li className="todo-item-container">
+                        <li key={todo.id} className="todo-item-container">
                             <div className="todo-item">
                                 <input type="checkbox"/>
                                 <span className="todo-item-label">{todo.title}</span>
                                 {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
                             </div>
-                            <button className="x-button">
+                            <button onClick={() => deleteTodo(todo.id)} className="x-button">
                                 <svg
                                     className="x-button-icon"
                                     fill="none"
@@ -57,7 +86,7 @@ function App() {
                                 </svg>
                             </button>
                         </li>
-                        )
+                    )
                     }
                 </ul>
 
