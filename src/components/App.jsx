@@ -26,7 +26,7 @@ function App() {
             isEditing: false,
         },
     ]);
-    
+
     const [idForTodo, setIdForTodo] = useState(4);
 
     function addTodo(todo) {
@@ -41,7 +41,6 @@ function App() {
 
         setIdForTodo(prevIdForTodo => prevIdForTodo + 1);
     }
-
 
 
     function deleteTodo(id) {
@@ -102,21 +101,53 @@ function App() {
         setTodos(updatedTodos);
     }
 
+    function remaining() {
+        return todos.filter(todo => !todo.isComplete).length;
+    }
+
+    function clearCompleted() {
+        setTodos([...todos].filter(todo => !todo.isComplete));
+    }
+
+    function completeAllTodos() {
+        const updatedTodos = todos.map(todo => {
+            todo.isComplete = true;
+
+            return todo;
+        });
+
+        setTodos(updatedTodos);
+    }
+
+    function todosFiltered(filter) {
+        if (filter === 'all') {
+            return todos;
+        } else if (filter === 'active') {
+            return todos.filter(todo => !todo.isComplete);
+        } else if (filter === 'completed') {
+            return todos.filter(todo => todo.isComplete)
+        }
+    }
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
                 <h2>Todo App</h2>
-                <TodoForm addTodo={addTodo} />
+                <TodoForm addTodo={addTodo}/>
 
                 {todos.length > 0 ? (
                     <>
                         <TodoList
                             todos={todos}
+                            todosFiltered={todosFiltered}
                             completeTodo={completeTodo}
                             deleteTodo={deleteTodo}
                             updateTodo={updateTodo}
                             cancelEdit={cancelEdit}
                             markAsEditing={markAsEditing}
+                            remaining={remaining}
+                            clearCompleted={clearCompleted}
+                            completeAllTodos={completeAllTodos}
                         />
                     </>
                 ) : (<NoTodos/>)}

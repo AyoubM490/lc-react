@@ -24,8 +24,6 @@ class AppClass extends Component {
         };
     }
     render() {
-
-
         return (
             <div className="todo-app-container">
                 <div className="todo-app">
