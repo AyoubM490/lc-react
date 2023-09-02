@@ -1,11 +1,14 @@
 import '../reset.css';
 import '../App.css';
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import NoTodos from "./NoTodos";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import {debounce, throttle} from "lodash";
 
 function App() {
+    const [name, setName] = useState('');
+    const nameInputEl = useRef()
     const [todos, setTodos] = useState([
         {
             id: 1,
@@ -129,9 +132,32 @@ function App() {
         }
     }
 
+    useEffect(() => {
+        console.log('use effect running')
+        nameInputEl.current.focus()
+        return function cleanup() {
+            // console.log('cleaning up')
+        }
+    }, [name])
+
+    console.log()
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
+                <div className="name-container">
+                    <h2>What is your name?</h2>
+                    <form action="#">
+                        <input type="text"
+                               ref={nameInputEl}
+                               className="todo-input"
+                               placeholder="What is your name"
+                               value={name}
+                               onChange={event => setName(event.target.value)}
+                        />
+                    </form>
+                    {name && <p className="name-label">Hello, {name}</p>}
+                </div>
                 <h2>Todo App</h2>
                 <TodoForm addTodo={addTodo}/>
 
