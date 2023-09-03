@@ -17,6 +17,12 @@ body {
   background: #f3f4f6;
 }
 
+.container {
+  margin: auto;
+  padding-top: 24px;
+  max-width: 48rem;
+}
+
 .todo-app {
   margin: auto;
   margin-top: 30px;
@@ -156,6 +162,25 @@ h2 {
 
 .toggles-container {
   margin: 20px 0;
+}
+
+nav {
+  background: white;
+  padding: 16px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+nav ul li:not(:first-child) {
+  margin-left: 16px;
+}
+
+.active {
+  font-weight: bold;
 }
 
 /* Transitions */
